@@ -1,0 +1,23 @@
+export const reference=[
+ ['abc','Texto literal','Busca esos caracteres en ese orden. Las mayúsculas cuentan.','hola encuentra hola en «hola mundo».'],
+ ['.','Un carácter cualquiera','El punto representa un carácter, salvo un salto de línea con la configuración de este juego.','c.sa encuentra casa, cosa o c9sa.'],
+ ['[abc]','Un carácter de una lista','Elige uno de los caracteres que hay dentro de los corchetes.','gr[ie]s admite gris y gres.'],
+ ['[a-z]','Rangos','El guion entre dos caracteres indica un rango. No incluye automáticamente letras con tilde.','[0-9] encuentra un dígito.'],
+ ['[^abc]','Excluir caracteres','El ^ dentro de un conjunto, al principio, significa «cualquier carácter salvo estos».','[^aeiou] también admite números y signos: no significa «solo consonantes».'],
+ ['^ y $','Inicio y final','^ exige el principio del texto; $ exige el final (o la posición anterior a un salto de línea final en JavaScript). El modo «texto completo» del juego rechaza contenido adicional.','^hola$ sirve para el texto hola; ^hola busca hola al principio.'],
+ ['+','Una o más veces','Repite lo que está justo antes al menos una vez.','a+ admite a, aa y aaa.'],
+ ['*','Cero o más veces','Lo anterior puede no aparecer o repetirse muchas veces.','ah* admite a, ah y ahhh.'],
+ ['?','Opcional','Lo anterior aparece cero o una vez.','colou?r admite color y colour.'],
+ ['{n} · {n,} · {n,m}','Número de repeticiones','Pide exactamente n, al menos n, o entre n y m repeticiones.','\\d{4} pide cuatro dígitos. (ha){2,} pide dos o más ha.'],
+ ['a|b','Una opción u otra','La barra vertical permite alternativas completas. Usa grupos si quieres limitar qué parte es alternativa.','gato|perro encuentra gato o perro. ^(?:gato|perro)$ exige todo el texto.'],
+ ['(...) y (?:...)','Grupos','Los paréntesis agrupan varios caracteres. (...) además recuerda el texto; (?:...) agrupa sin recordarlo.','(ha)+ repite ha, no solo la a.'],
+ ['\\','Escapar un símbolo','La barra invertida convierte un símbolo especial en texto literal o forma abreviaturas como \\d.','\\. encuentra un punto. ! no necesita escape. En la caja escribe una sola barra invertida.'],
+ ['\\d · \\D','Dígitos y su contrario','\\d es [0-9]. \\D encuentra cualquier carácter que no sea uno de esos dígitos.','\\d+ encuentra 42 en «nivel 42».'],
+ ['\\w · \\W','Caracteres de palabra','En este juego, \\w equivale a [A-Za-z0-9_]. No incluye ñ ni vocales con tilde. \\W es el contrario.','\\w+ encuentra jugador_1.'],
+ ['\\s · \\S','Espacios en blanco','\\s admite espacios, tabulaciones, saltos de línea y otros espacios Unicode. \\S es el contrario.','a\\sb admite a b y a seguido de tabulación y b.'],
+ ['\\b','Borde de palabra','Comprueba una frontera entre un carácter \\w y otro que no lo sea (o un extremo). No consume texto. Tiene las mismas limitaciones con letras acentuadas que \\w.','\\bajo\\b encuentra ajo, pero no viajo.'],
+ ['\\1','Reutilizar una captura','Exige el mismo texto que encontró el primer grupo de captura, no solo un carácter parecido.','([A-Za-z])[A-Za-z]*\\1 encuentra rotor y radar. (\\w)\\w\\1 solo tiene tres caracteres: no reconoce rotor completo.'],
+ ['(?=...) · (?!...)','Comprobar lo que viene','(?=...) exige que lo siguiente coincida; (?!...) exige que no coincida. La comprobación no consume caracteres.','q(?!u) encuentra la q de iraq, pero no la de que.'],
+ ['+? · *?','Repetir lo mínimo','Un ? después de + o * hace que el motor pruebe primero la coincidencia más corta. No es el mismo uso que el ? opcional.','<.+?> encuentra una etiqueta de cada vez en <p>hola</p>. No sirve para analizar HTML general.'],
+ ['grep y sed','Llevarlo a Linux','JavaScript, grep -E y sed -E tienen reglas diferentes. Los grupos de anticipación no funcionan en expresiones POSIX extendidas.','En GNU sed: sed -E \'s/\\b[Aa]jo\\b//g\' archivo.txt quita la palabra; sed \'/patrón/d\' elimina la línea completa. Estos ejemplos usan extensiones de GNU.']
+];

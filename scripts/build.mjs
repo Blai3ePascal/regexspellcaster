@@ -1,0 +1,11 @@
+import { cp, mkdir, rm, readFile, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+await rm('dist',{recursive:true,force:true});await mkdir('dist/src',{recursive:true});
+await cp('public','dist',{recursive:true});await cp('index.html','dist/index.html');
+const sourceFiles=['app.js','engine.js','levels.js','reference.js','regex-worker.js','style.css'];
+for(const name of sourceFiles)await cp(`src/${name}`,`dist/src/${name}`);
+const hash=createHash('sha256');for(const name of ['index.html',...sourceFiles.map(x=>'src/'+x),...['gremlin','imp','slime','ghost','wraith','nightmare','mage'].map(x=>'public/assets/'+x+'.png'),'public/manifest.webmanifest','public/favicon.svg'])hash.update(await readFile(name));
+const cache='regexspellcaster-'+hash.digest('hex').slice(0,12);
+const assets=['./','./index.html','./favicon.svg','./icon-192.png','./icon-512.png','./manifest.webmanifest',...sourceFiles.map(x=>'./src/'+x),...['gremlin','imp','slime','ghost','wraith','nightmare','mage'].map(x=>'./assets/'+x+'.png')];
+await writeFile('dist/sw.js',`const CACHE=${JSON.stringify(cache)};const ASSETS=${JSON.stringify(assets)};self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)));});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('regexspellcaster-')&&k!==CACHE).map(k=>caches.delete(k)))));});self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||new URL(e.request.url).origin!==self.location.origin)return;if(e.request.mode==='navigate'){e.respondWith(caches.match(new URL('./index.html',self.registration.scope)).then(cached=>cached||fetch(e.request)));return;}e.respondWith(caches.match(e.request).then(cached=>cached||fetch(e.request)));});`);
+await writeFile('dist/.nojekyll','');console.log('Build complete: dist (relative URLs, modules, seven creatures, offline cache).');
